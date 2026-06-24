@@ -34,9 +34,6 @@
 </header>
 
 
-
-<!-- NAVBAR BOOTSTRAP -->
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
 <div class="container">
@@ -54,7 +51,6 @@ data-bs-target="#menu">
 <span class="navbar-toggler-icon"></span>
 
 </button>
-
 
 
 <div class="collapse navbar-collapse" id="menu">
@@ -95,12 +91,8 @@ data-bs-target="#menu">
 
 
 
-
 <main>
 
-
-
-<!-- INICIO -->
 
 <section id="inicio" class="container text-center p-3">
 
@@ -128,14 +120,10 @@ Conocer más
 
 
 
-
-<!-- QUIENES SOMOS -->
-
 <section id="quienes" class="container p-3">
 
 
 <div class="row align-items-center">
-
 
 
 <div class="col-md-6">
@@ -156,7 +144,6 @@ Buscamos fomentar creatividad, trabajo en equipo e innovación dentro del ámbit
 </div>
 
 
-
 <div class="col-md-6">
 
 
@@ -168,7 +155,6 @@ alt="Kim Studio">
 </div>
 
 
-
 </div>
 
 
@@ -176,25 +162,15 @@ alt="Kim Studio">
 
 
 
-
-<!-- SERVICIOS -->
-
-
 <section id="servicios" class="container p-3">
 
 
 <h2 class="text-center">
-
 Servicios o Productos
-
 </h2>
 
 
-
-
 <div class="row">
-
-
 
 
 <div class="col-md-4">
@@ -219,10 +195,6 @@ Ver más
 </div>
 
 </div>
-
-
-
-
 
 <div class="col-md-4">
 
@@ -283,18 +255,12 @@ Ver más
 
 
 
-<!-- CONTACTO -->
-
-
 <section id="contacto" class="container p-3">
 
 
 <h2>
-
 Contacto
-
 </h2>
-
 
 
 
@@ -332,7 +298,6 @@ Enviar
 </button>
 
 
-
 </form>
 
 
@@ -349,17 +314,13 @@ kimstudio@gmail.com
 
 
 <p>
-
 Teléfono: 0997379848
-
 </p>
 
 
 
 <p>
-
 Dirección: Guayaquil, Ecuador
-
 </p>
 
 
@@ -380,7 +341,6 @@ Instagram
 
 
 </p>
-
 
 
 </section>
@@ -404,6 +364,7 @@ allowfullscreen>
 
 
 </section>
+
 
 
 
@@ -432,10 +393,65 @@ Promoción especial para nuevos artistas.
 
 
 
+<section class="container p-4">
 
+
+<h2 class="text-center">
+Registro de proyectos musicales
+</h2>
+
+
+
+<form id="formularioProyecto">
+
+
+<input 
+id="nombreProyecto"
+class="form-control mb-3"
+placeholder="Nombre del proyecto">
+
+
+
+<input 
+id="artista"
+class="form-control mb-3"
+placeholder="Artista">
+
+
+
+<input 
+id="categoria"
+class="form-control mb-3"
+placeholder="Categoría musical">
+
+
+
+<button class="btn btn-primary">
+
+Registrar proyecto
+
+</button>
+
+
+</form>
+
+
+
+<h4 class="mt-4">
+
+Total de proyectos:
+<span id="contador">0</span>
+
+</h4>
+
+
+
+<div id="listaProyectos"></div>
+
+
+</section>
 
 </main>
-
 
 
 
@@ -453,7 +469,12 @@ Promoción especial para nuevos artistas.
 
 
 
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script src="script.js"></script>
+
 
 
 </body>
