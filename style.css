@@ -37,9 +37,45 @@ border-radius:20px;
 
 }
 
+/* Validaciones */
+
+.is-valid{
+
+border:2px solid #198754 !important;
+
+}
+
+.is-invalid{
+
+border:2px solid #dc3545 !important;
+
+}
+
+.alert{
+
+margin-top:15px;
+
+}
+
+small{
+
+font-size:14px;
+
+}
+
+textarea{
+
+resize:none;
+
+}
+
+#listaProyectos .card{
+
+background:white;
+
+}
 
 @media(max-width:600px){
-
 
 h1{
 
@@ -47,12 +83,16 @@ font-size:25px;
 
 }
 
-
 h2{
 
 font-size:20px;
 
 }
 
+button{
+
+width:100%;
+
+}
 
 }
