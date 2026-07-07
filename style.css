@@ -1,9 +1,17 @@
+/* ESTILOS GENERALES */
+/* Proyecto Integrador - Semana 7 */
+/* Preparado para futura integración con Flask */
+
 body{
 
 font-family: Arial, sans-serif;
 background:#f4f4f4;
+margin:0;
+padding:0;
 
 }
+
+/* ENCABEZADO */
 
 header{
 
@@ -15,15 +23,41 @@ color:white;
 h1{
 
 font-size:40px;
+font-weight:bold;
 
 }
+
+h2{
+
+margin-bottom:20px;
+
+}
+
+/* MENÚ */
+
+.navbar-brand{
+
+font-weight:bold;
+
+}
+
+/* TARJETAS */
 
 .card{
 
 border-radius:15px;
 box-shadow:0 5px 10px #999;
+transition:0.3s;
 
 }
+
+.card:hover{
+
+transform:scale(1.02);
+
+}
+
+/* SECCIONES */
 
 section{
 
@@ -31,13 +65,30 @@ margin-top:20px;
 
 }
 
+/* BOTONES */
+
 button{
 
 border-radius:20px;
 
 }
 
-/* Validaciones */
+/* FORMULARIOS */
+
+input,
+select,
+textarea{
+
+border-radius:10px;
+
+}
+
+textarea{
+
+resize:none;
+
+}
+/* VALIDACIONES */
 
 .is-valid{
 
@@ -51,27 +102,85 @@ border:2px solid #dc3545 !important;
 
 }
 
-.alert{
-
-margin-top:15px;
-
-}
-
 small{
 
 font-size:14px;
 
 }
 
-textarea{
+.alert{
 
-resize:none;
+margin-top:15px;
+
+}
+/* LISTA DINÁMICA DE PROYECTOS */
+
+#listaProyectos{
+
+margin-top:20px;
 
 }
 
 #listaProyectos .card{
 
 background:white;
+margin-bottom:20px;
+
+}
+
+#contador{
+
+font-weight:bold;
+color:#0d6efd;
+
+}
+/* FOOTER */
+
+footer{
+
+margin-top:40px;
+
+}
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+header{
+
+padding:20px;
+
+}
+
+h1{
+
+font-size:30px;
+
+}
+
+h2{
+
+font-size:24px;
+
+}
+
+button{
+
+width:100%;
+
+}
+
+.card{
+
+margin-bottom:20px;
+
+}
+
+iframe{
+
+width:100%;
+height:250px;
+
+}
 
 }
 
@@ -89,9 +198,21 @@ font-size:20px;
 
 }
 
+h3{
+
+font-size:18px;
+
+}
+
 button{
 
 width:100%;
+
+}
+
+iframe{
+
+height:220px;
 
 }
 

@@ -2,8 +2,6 @@ const formulario = document.getElementById("formularioProyecto");
 const lista = document.getElementById("listaProyectos");
 const contador = document.getElementById("contador");
 
-let total = 0;
-
 const nombre = document.getElementById("nombreProyecto");
 const artista = document.getElementById("artista");
 const categoria = document.getElementById("categoria");
@@ -15,10 +13,77 @@ const errorCategoria = document.getElementById("errorCategoria");
 const errorDescripcion = document.getElementById("errorDescripcion");
 const mensajeGeneral = document.getElementById("mensajeGeneral");
 
-// VALIDAR NOMBRE
+// ARREGLO DE PROYECTOS
+
+let proyectos = [];
+
+// MOSTRAR PROYECTOS
+
+function mostrarProyectos(){
+
+lista.innerHTML="";
+
+if(proyectos.length===0){
+
+lista.innerHTML=`
+<div class="alert alert-warning text-center">
+No existen proyectos registrados.
+</div>
+`;
+
+contador.textContent=0;
+
+return;
+
+}
+
+contador.textContent=proyectos.length;
+
+proyectos.forEach(function(proyecto,index){
+
+lista.innerHTML+=`
+
+<div class="card p-3 mt-3">
+
+<h3>${proyecto.nombre}</h3>
+
+<p><strong>Artista:</strong> ${proyecto.artista}</p>
+
+<p><strong>Categoría:</strong> ${proyecto.categoria}</p>
+
+<p><strong>Descripción:</strong> ${proyecto.descripcion}</p>
+
+<button
+class="btn btn-danger"
+onclick="eliminarProyecto(${index})">
+
+Eliminar
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+// ELIMINAR PROYECTO
+
+function eliminarProyecto(indice){
+
+proyectos.splice(indice,1);
+
+mostrarProyectos();
+
+}
+
+// VALIDACIONES
+
 function validarNombre(){
 
-if(nombre.value.trim().length < 3){
+if(nombre.value.trim().length<3){
 
 nombre.classList.add("is-invalid");
 nombre.classList.remove("is-valid");
@@ -27,7 +92,7 @@ errorNombre.innerHTML="<small class='text-danger'>El nombre debe tener mínimo 3
 
 return false;
 
-}else{
+}
 
 nombre.classList.remove("is-invalid");
 nombre.classList.add("is-valid");
@@ -38,9 +103,6 @@ return true;
 
 }
 
-}
-
-// VALIDAR ARTISTA
 function validarArtista(){
 
 if(artista.value.trim()===""){
@@ -52,7 +114,7 @@ errorArtista.innerHTML="<small class='text-danger'>Ingrese el nombre del artista
 
 return false;
 
-}else{
+}
 
 artista.classList.remove("is-invalid");
 artista.classList.add("is-valid");
@@ -63,9 +125,6 @@ return true;
 
 }
 
-}
-
-// VALIDAR CATEGORÍA
 function validarCategoria(){
 
 if(categoria.value===""){
@@ -77,7 +136,7 @@ errorCategoria.innerHTML="<small class='text-danger'>Seleccione una categoría.<
 
 return false;
 
-}else{
+}
 
 categoria.classList.remove("is-invalid");
 categoria.classList.add("is-valid");
@@ -88,12 +147,9 @@ return true;
 
 }
 
-}
-
-// VALIDAR DESCRIPCIÓN
 function validarDescripcion(){
 
-if(descripcion.value.trim().length < 10){
+if(descripcion.value.trim().length<10){
 
 descripcion.classList.add("is-invalid");
 descripcion.classList.remove("is-valid");
@@ -102,7 +158,7 @@ errorDescripcion.innerHTML="<small class='text-danger'>La descripción debe tene
 
 return false;
 
-}else{
+}
 
 descripcion.classList.remove("is-invalid");
 descripcion.classList.add("is-valid");
@@ -113,79 +169,58 @@ return true;
 
 }
 
-}
+// VALIDACIÓN EN TIEMPO REAL
 
-// EVENTOS EN TIEMPO REAL
+nombre.addEventListener("input",validarNombre);
+nombre.addEventListener("blur",validarNombre);
 
-nombre.addEventListener("input", validarNombre);
-nombre.addEventListener("blur", validarNombre);
+artista.addEventListener("input",validarArtista);
+artista.addEventListener("blur",validarArtista);
 
-artista.addEventListener("input", validarArtista);
-artista.addEventListener("blur", validarArtista);
+categoria.addEventListener("change",validarCategoria);
 
-categoria.addEventListener("change", validarCategoria);
+descripcion.addEventListener("input",validarDescripcion);
+descripcion.addEventListener("blur",validarDescripcion);
 
-descripcion.addEventListener("input", validarDescripcion);
-descripcion.addEventListener("blur", validarDescripcion);
+// REGISTRAR PROYECTO
 
-// REGISTRAR
-
-formulario.addEventListener("submit", function(event){
+formulario.addEventListener("submit",function(event){
 
 event.preventDefault();
 
-let nombreValido = validarNombre();
-let artistaValido = validarArtista();
-let categoriaValida = validarCategoria();
-let descripcionValida = validarDescripcion();
+let nombreValido=validarNombre();
+let artistaValido=validarArtista();
+let categoriaValida=validarCategoria();
+let descripcionValida=validarDescripcion();
 
 if(!nombreValido || !artistaValido || !categoriaValida || !descripcionValida){
 
-mensajeGeneral.innerHTML="<div class='alert alert-danger'>Debe corregir los errores antes de registrar.</div>";
+mensajeGeneral.innerHTML=`
+<div class="alert alert-danger">
+Debe corregir los errores antes de registrar.
+</div>
+`;
 
 return;
 
 }
 
-mensajeGeneral.innerHTML="<div class='alert alert-success'>Proyecto registrado correctamente.</div>";
-
-let proyecto = document.createElement("div");
-
-proyecto.className="card p-3 mt-3";
-
-proyecto.innerHTML=`
-
-<h3>${nombre.value}</h3>
-
-<p><strong>Artista:</strong> ${artista.value}</p>
-
-<p><strong>Categoría:</strong> ${categoria.value}</p>
-
-<p><strong>Descripción:</strong> ${descripcion.value}</p>
-
-<button class="btn btn-danger mt-2">
-Eliminar
-</button>
-
+mensajeGeneral.innerHTML=`
+<div class="alert alert-success">
+Proyecto registrado correctamente.
+</div>
 `;
 
-lista.appendChild(proyecto);
+proyectos.push({
 
-total++;
-
-contador.textContent = total;
-
-let botonEliminar = proyecto.querySelector("button");
-
-botonEliminar.addEventListener("click", function(){
-
-proyecto.remove();
-
-total--;
-
-contador.textContent = total;
+nombre:nombre.value,
+artista:artista.value,
+categoria:categoria.value,
+descripcion:descripcion.value
 
 });
+
+mostrarProyectos();
 
 formulario.reset();
 
@@ -200,3 +235,7 @@ errorCategoria.innerHTML="";
 errorDescripcion.innerHTML="";
 
 });
+
+// INICIO
+
+mostrarProyectos();
