@@ -1,13 +1,15 @@
+/* PROYECTO INTEGRADOR - SEMANA 8 */
+/* Plataforma Musical Kim Studio */
+
 /* ESTILOS GENERALES */
-/* Proyecto Integrador - Semana 7 */
-/* Preparado para futura integración con Flask */
 
 body{
 
-font-family: Arial, sans-serif;
-background:#f4f4f4;
-margin:0;
-padding:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f5f7fa;
+    color:#333;
+    margin:0;
+    padding:0;
 
 }
 
@@ -15,45 +17,47 @@ padding:0;
 
 header{
 
-background:#111;
-color:white;
+    background:linear-gradient(135deg,#0d6efd,#212529);
+    color:white;
 
 }
 
-h1{
+header h1{
 
-font-size:40px;
-font-weight:bold;
-
-}
-
-h2{
-
-margin-bottom:20px;
+    font-weight:bold;
 
 }
 
-/* MENÚ */
+header p{
+
+    margin-bottom:10px;
+
+}
+
+/* NAVBAR */
+
+.navbar{
+
+    box-shadow:0 3px 10px rgba(0,0,0,.2);
+
+}
 
 .navbar-brand{
 
-font-weight:bold;
+    font-size:24px;
+    font-weight:bold;
 
 }
 
-/* TARJETAS */
+.nav-link{
 
-.card{
-
-border-radius:15px;
-box-shadow:0 5px 10px #999;
-transition:0.3s;
+    transition:.3s;
 
 }
 
-.card:hover{
+.nav-link:hover{
 
-transform:scale(1.02);
+    color:#ffc107 !important;
 
 }
 
@@ -61,159 +65,369 @@ transform:scale(1.02);
 
 section{
 
-margin-top:20px;
+    margin-top:40px;
+    margin-bottom:40px;
 
 }
 
-/* BOTONES */
-
-button{
-
-border-radius:20px;
-
-}
-
-/* FORMULARIOS */
-
-input,
-select,
-textarea{
-
-border-radius:10px;
-
-}
-
-textarea{
-
-resize:none;
-
-}
-/* VALIDACIONES */
-
-.is-valid{
-
-border:2px solid #198754 !important;
-
-}
-
-.is-invalid{
-
-border:2px solid #dc3545 !important;
-
-}
-
-small{
-
-font-size:14px;
-
-}
-
-.alert{
-
-margin-top:15px;
-
-}
-/* LISTA DINÁMICA DE PROYECTOS */
-
-#listaProyectos{
-
-margin-top:20px;
-
-}
-
-#listaProyectos .card{
-
-background:white;
-margin-bottom:20px;
-
-}
-
-#contador{
-
-font-weight:bold;
-color:#0d6efd;
-
-}
-/* FOOTER */
-
-footer{
-
-margin-top:40px;
-
-}
-/* RESPONSIVE */
-
-@media(max-width:768px){
-
-header{
-
-padding:20px;
-
-}
-
-h1{
-
-font-size:30px;
-
-}
+/* TITULOS */
 
 h2{
 
-font-size:24px;
-
-}
-
-button{
-
-width:100%;
-
-}
-
-.card{
-
-margin-bottom:20px;
-
-}
-
-iframe{
-
-width:100%;
-height:250px;
-
-}
-
-}
-
-@media(max-width:600px){
-
-h1{
-
-font-size:25px;
-
-}
-
-h2{
-
-font-size:20px;
+    font-weight:bold;
+    color:#0d6efd;
 
 }
 
 h3{
 
-font-size:18px;
+    color:#343a40;
 
 }
 
-button{
+/* CAROUSEL */
 
-width:100%;
+.carousel img{
+
+    height:420px;
+    object-fit:cover;
+
+}
+
+/* CARDS */
+
+.card{
+
+    border:none;
+    border-radius:15px;
+    transition:.3s;
+    overflow:hidden;
+
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+    box-shadow:0 10px 20px rgba(0,0,0,.15);
+
+}
+
+.card-title{
+
+    font-weight:bold;
+
+}
+
+/* BOTONES */
+
+.btn{
+
+    border-radius:30px;
+    transition:.3s;
+
+}
+
+.btn:hover{
+
+    transform:scale(1.05);
+
+}
+
+/* FORMULARIOS */
+
+.form-control,
+.form-select{
+
+    border-radius:12px;
+
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    box-shadow:0 0 8px rgba(13,110,253,.4);
+
+}
+
+/* VALIDACIONES */
+
+.is-valid{
+
+    border:2px solid #198754 !important;
+
+}
+
+.is-invalid{
+
+    border:2px solid #dc3545 !important;
+
+}
+
+small{
+
+    font-size:14px;
+
+}
+
+/* ALERTAS */
+
+.alert{
+
+    border-radius:12px;
+
+}
+
+/* BADGES */
+
+.badge{
+
+    font-size:15px;
+
+}
+
+/* SPINNER */
+
+#spinnerCarga{
+
+    margin:30px 0;
+
+}
+
+/* LISTA DE PROYECTOS */
+
+#listaProyectos{
+
+    margin-top:30px;
+
+}
+
+#listaProyectos .card{
+
+    background:#ffffff;
+    border-left:6px solid #0d6efd;
+
+}
+
+#contador{
+
+    font-size:20px;
+    font-weight:bold;
+
+}
+
+/* MODAL */
+
+.modal-content{
+
+    border-radius:18px;
+    border:none;
+
+}
+
+.modal-header{
+
+    border-bottom:none;
+
+}
+
+.modal-footer{
+
+    border-top:none;
+
+}
+
+/* VIDEO */
+
+.ratio{
+
+    border-radius:15px;
+    overflow:hidden;
+
+}
+
+/* FOOTER */
+
+footer{
+
+    margin-top:60px;
+
+}
+
+footer h5{
+
+    font-weight:bold;
+
+}
+
+footer p{
+
+    margin-bottom:5px;
+
+}
+
+/* ICONOS */
+
+.bi{
+
+    margin-right:5px;
+
+}
+
+/* TRANSICIONES */
+
+img{
+
+    transition:.4s;
+
+}
+
+img:hover{
+
+    transform:scale(1.03);
+
+}
+
+/* RESPONSIVE TABLET */
+
+@media (max-width:992px){
+
+header h1{
+
+    font-size:35px;
+
+}
+
+.carousel img{
+
+    height:320px;
+
+}
+
+.card{
+
+    margin-bottom:20px;
+
+}
+
+}
+
+/* RESPONSIVE CELULAR */
+
+@media (max-width:768px){
+
+header{
+
+    padding:35px 15px;
+
+}
+
+header h1{
+
+    font-size:28px;
+
+}
+
+header p{
+
+    font-size:16px;
+
+}
+
+section{
+
+    margin-top:25px;
+    margin-bottom:25px;
+
+}
+
+.carousel img{
+
+    height:220px;
+
+}
+
+.btn{
+
+    width:100%;
+    margin-bottom:10px;
+
+}
+
+.card{
+
+    margin-bottom:20px;
 
 }
 
 iframe{
 
-height:220px;
+    width:100%;
 
 }
+
+footer{
+
+    text-align:center;
+
+}
+
+}
+
+/* CELULARES PEQUEÑOS */
+
+@media (max-width:576px){
+
+header h1{
+
+    font-size:24px;
+
+}
+
+h2{
+
+    font-size:22px;
+
+}
+
+h3{
+
+    font-size:19px;
+
+}
+
+.navbar-brand{
+
+    font-size:20px;
+
+}
+
+.card-body{
+
+    padding:18px;
+
+}
+
+.form-control,
+.form-select{
+
+    font-size:15px;
+
+}
+
+}
+
+/* ANIMACIONES */
+
+.card,
+.btn,
+img{
+
+    transition:all .3s ease;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
 
 }
