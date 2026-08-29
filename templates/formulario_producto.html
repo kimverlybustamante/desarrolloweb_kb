@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>REGISTRO DE PRODUCTO</h2>
+
+<p>Prueba de Flask-WTF</p>
+
+{{ form.hidden_tag() }}
+
+{{ form.nombre.label }}
+{{ form.nombre() }}
+
+{{ form.precio.label }}
+{{ form.precio() }}
+
+{{ form.cantidad.label }}
+{{ form.cantidad() }}
+
+{{ form.enviar() }}
+
+{% endblock %}
