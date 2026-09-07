@@ -1,4 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, flash
+import sqlite3
+import os
 
 from forms.producto_form import ProductoForm
 from forms.cliente_form import ClienteForm
@@ -12,6 +14,36 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "kim-studio-clave-secreta-2026"
 
 
+# Ruta de la base de datos
+DATABASE = os.path.join("data", "ferreteria.db")
+
+
+def conectar_db():
+    return sqlite3.connect(DATABASE)
+
+
+# Crear la tabla de productos si no existe
+def crear_tabla_productos():
+    os.makedirs("data", exist_ok=True)
+
+    conn = conectar_db()
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS productos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            precio REAL NOT NULL,
+            cantidad INTEGER NOT NULL
+        )
+    """)
+
+    conn.commit()
+    conn.close()
+
+
+crear_tabla_productos()
+
+
 @app.route("/")
 def inicio():
     return render_template("index.html")
@@ -22,15 +54,41 @@ def productos():
 
     form = ProductoForm()
 
+    # Validar el formulario antes de guardar
     if form.validate_on_submit():
+
+        conn = conectar_db()
+
+        conn.execute("""
+            INSERT INTO productos (nombre, precio, cantidad)
+            VALUES (?, ?, ?)
+        """, (
+            form.nombre.data,
+            float(form.precio.data),
+            form.cantidad.data
+        ))
+
+        conn.commit()
+        conn.close()
 
         flash("Producto registrado correctamente.", "success")
 
         return redirect(url_for("productos"))
 
+    # Obtener los productos guardados en SQLite
+    conn = conectar_db()
+
+    productos = conn.execute("""
+        SELECT id, nombre, precio, cantidad
+        FROM productos
+    """).fetchall()
+
+    conn.close()
+
     return render_template(
         "formulario_producto.html",
-        form=form
+        form=form,
+        productos=productos
     )
 
 
@@ -61,6 +119,7 @@ def proveedores():
         flash("Proveedor registrado correctamente.", "success")
 
         return redirect(url_for("proveedores"))
+
 
     return render_template(
         "formulario_proveedor.html",
