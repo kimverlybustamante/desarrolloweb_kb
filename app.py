@@ -1,6 +1,6 @@
-from flask import Flask, render_template, redirect, url_for, flash
-import sqlite3
-import os
+from flask import Flask, render_template, redirect, url_for, flash, request
+
+from conexion.conexion import obtener_conexion
 
 from forms.producto_form import ProductoForm
 from forms.cliente_form import ClienteForm
@@ -14,54 +14,32 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "kim-studio-clave-secreta-2026"
 
 
-# Ruta de la base de datos
-DATABASE = os.path.join("data", "ferreteria.db")
 
-
-def conectar_db():
-    return sqlite3.connect(DATABASE)
-
-
-# Crear la tabla de productos si no existe
-def crear_tabla_productos():
-    os.makedirs("data", exist_ok=True)
-
-    conn = conectar_db()
-
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS productos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nombre TEXT NOT NULL,
-            precio REAL NOT NULL,
-            cantidad INTEGER NOT NULL
-        )
-    """)
-
-    conn.commit()
-    conn.close()
-
-
-crear_tabla_productos()
-
+# INICIO
 
 @app.route("/")
 def inicio():
     return render_template("index.html")
 
 
+
+# PRODUCTOS
+# LISTAR + AGREGAR
+
 @app.route("/productos", methods=["GET", "POST"])
 def productos():
 
     form = ProductoForm()
 
-    # Validar el formulario antes de guardar
+    # AGREGAR PRODUCTO
     if form.validate_on_submit():
 
-        conn = conectar_db()
+        conn = obtener_conexion()
+        cursor = conn.cursor()
 
-        conn.execute("""
-            INSERT INTO productos (nombre, precio, cantidad)
-            VALUES (?, ?, ?)
+        cursor.execute("""
+            INSERT INTO productos (nombre, precio, stock)
+            VALUES (%s, %s, %s)
         """, (
             form.nombre.data,
             float(form.precio.data),
@@ -69,20 +47,26 @@ def productos():
         ))
 
         conn.commit()
+
+        cursor.close()
         conn.close()
 
         flash("Producto registrado correctamente.", "success")
 
         return redirect(url_for("productos"))
 
-    # Obtener los productos guardados en SQLite
-    conn = conectar_db()
+    # LISTAR PRODUCTOS
+    conn = obtener_conexion()
+    cursor = conn.cursor()
 
-    productos = conn.execute("""
-        SELECT id, nombre, precio, cantidad
+    cursor.execute("""
+        SELECT id_producto, nombre, precio, stock
         FROM productos
-    """).fetchall()
+    """)
 
+    productos = cursor.fetchall()
+
+    cursor.close()
     conn.close()
 
     return render_template(
@@ -91,6 +75,98 @@ def productos():
         productos=productos
     )
 
+
+# MODIFICAR PRODUCTO
+
+@app.route("/productos/editar/<int:id>", methods=["GET", "POST"])
+def editar_producto(id):
+
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+
+    # Buscar producto
+    cursor.execute("""
+        SELECT id_producto, nombre, precio, stock
+        FROM productos
+        WHERE id_producto = %s
+    """, (id,))
+
+    producto = cursor.fetchone()
+
+    if producto is None:
+        cursor.close()
+        conn.close()
+
+        flash("Producto no encontrado.", "danger")
+        return redirect(url_for("productos"))
+
+    form = ProductoForm()
+
+    # ACTUALIZAR
+    if form.validate_on_submit():
+
+        cursor.execute("""
+            UPDATE productos
+            SET nombre = %s,
+                precio = %s,
+                stock = %s
+            WHERE id_producto = %s
+        """, (
+            form.nombre.data,
+            float(form.precio.data),
+            form.cantidad.data,
+            id
+        ))
+
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        flash("Producto actualizado correctamente.", "success")
+
+        return redirect(url_for("productos"))
+
+    # Cargar datos actuales en el formulario
+    if request.method == "GET":
+        form.nombre.data = producto[1]
+        form.precio.data = producto[2]
+        form.cantidad.data = producto[3]
+
+    cursor.close()
+    conn.close()
+
+    return render_template(
+        "formulario_producto.html",
+        form=form,
+        productos=[]
+    )
+
+
+# ELIMINAR PRODUCTO
+
+@app.route("/productos/eliminar/<int:id>", methods=["POST"])
+def eliminar_producto(id):
+
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        DELETE FROM productos
+        WHERE id_producto = %s
+    """, (id,))
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    flash("Producto eliminado correctamente.", "success")
+
+    return redirect(url_for("productos"))
+
+
+# CLIENTES
 
 @app.route("/clientes", methods=["GET", "POST"])
 def clientes():
@@ -109,6 +185,9 @@ def clientes():
     )
 
 
+
+# PROVEEDORES
+
 @app.route("/proveedores", methods=["GET", "POST"])
 def proveedores():
 
@@ -120,12 +199,13 @@ def proveedores():
 
         return redirect(url_for("proveedores"))
 
-
     return render_template(
         "formulario_proveedor.html",
         form=form
     )
 
+
+# FACTURACIÓN
 
 @app.route("/facturacion", methods=["GET", "POST"])
 def facturacion():
@@ -143,6 +223,9 @@ def facturacion():
         form=form
     )
 
+
+
+# EJECUTAR APLICACIÓN
 
 if __name__ == "__main__":
     app.run(debug=True)
